@@ -9,23 +9,18 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-func ScrapeBinanceRegistratoinForm(targetWord string) {
+func IsBinanceReStart(targetWord string) bool {
 	doc, err := goquery.NewDocument("https://www.binance.com/register.html")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	doc.Find("form").Each(func(i int, s *goquery.Selection) {
-		header := s.Find("h3 span").Text()
-
-		if strings.Contains(header, targetWord) {
-			println(28)
-		}
-	})
+	registrationWord := doc.Find("form h3 span").Text()
+	return strings.Contains(registrationWord, targetWord) == false
 }
 
 func PostSlack(url string) error {
-	jsonStr := `{"text":"` + "nyan" + `"}`
+	jsonStr := `{"text":"` + "registration restarts!" + `"}`
 
 	req, err := http.NewRequest(
 		"POST",

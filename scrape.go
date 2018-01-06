@@ -20,19 +20,21 @@ func (hoge HogeError) Error() string {
 }
 
 func main() {
+	postSlackBinanceReStart()
+}
+
+func postSlackBinanceReStart() {
 	url := os.Getenv("SlackURL")
-
-	goReminder.ScrapeBinanceRegistratoinForm(TargetWord)
 	err := goReminder.PostSlack(url)
-
-	err = HogeError{"giepi-"}
-
 	if err != nil {
 		panic(err)
 	}
 }
 
 func Handle(evt json.RawMessage, ctx *runtime.Context) (string, error) {
-	println("nanisore-?")
-	return "gya-n", nil
+	if goReminder.IsBinanceReStart(TargetWord) {
+		postSlackBinanceReStart()
+	}
+
+	return "succeed", nil
 }
