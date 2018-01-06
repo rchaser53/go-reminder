@@ -77,3 +77,5 @@ clean:
 
 .PHONY: clean
 
+run:
+	go run -ldflags='-X main.SlackURL=$(SlackURL)' scrape.go

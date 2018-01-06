@@ -2,11 +2,14 @@ package main
 
 import (
 	"encoding/json"
-	"os"
 
 	"goReminder/Scrape"
 
 	"github.com/eawsy/aws-lambda-go-core/service/lambda/runtime"
+)
+
+var (
+	SlackURL string
 )
 
 var TargetWord string = "Registrations Pause"
@@ -24,8 +27,7 @@ func main() {
 }
 
 func postSlackBinanceReStart() {
-	url := os.Getenv("SlackURL")
-	err := goReminder.PostSlack(url)
+	err := goReminder.PostSlack(SlackURL)
 	if err != nil {
 		panic(err)
 	}
