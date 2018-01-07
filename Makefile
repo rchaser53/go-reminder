@@ -45,6 +45,7 @@ docker:
 		-e HANDLER=$(HANDLER)\
 		-e PACKAGE=$(PACKAGE)\
 		-e GOPATH=$(GOPATH)\
+		-e SlackUrl=$(SlackUrl)\
 		-e LDFLAGS='$(LDFLAGS)'\
 		-v $(CURDIR):$(CURDIR):Z\
 		$(foreach GP,$(subst :, ,$(GOPATH)),-v $(GP):$(GP)):Z\
@@ -58,7 +59,7 @@ all: build pack perm
 .PHONY: all
 
 build:
-	go build -buildmode=plugin -ldflags='-w -s $(LDFLAGS)' -o $(HANDLER).so
+	go build -buildmode=plugin -ldflags='-w -s -X main.SlackURL=$(SlackUrl)' -o $(HANDLER).so
 
 .PHONY: build
 
@@ -78,4 +79,4 @@ clean:
 .PHONY: clean
 
 run:
-	go run -ldflags='-X main.SlackURL=$(SlackURL)' scrape.go
+	go run -ldflags='-X main.SlackURL=$(SlackUrl)' scrape.go
